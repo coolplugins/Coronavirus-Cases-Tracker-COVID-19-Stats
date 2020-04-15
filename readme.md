@@ -1,6 +1,5 @@
 
 **Coronavirus Cases Tracker Plugin** is used to display Novel Coronavirus (COVID-19) outbreak live Updates in WordPress page/posts/widgets section.
-
 With the help of a simple shortcode, You can display worldwide or country specific data of total infected, deaths and recovered cases of coronavirus inside your WordPress website in a card layout.
 
 <h3>Use this shortcode in your page/posts/widget section</h3>
