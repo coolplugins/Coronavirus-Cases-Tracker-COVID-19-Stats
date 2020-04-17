@@ -183,7 +183,7 @@ public function cvct_g_stats_data(){
     $gstats_data='';
     $save_arr=array();
 if($cache==false){
-         $api_url = 'https://corona.lmao.ninja/all';
+         $api_url = 'https://corona.lmao.ninja/v2/all';
          $request = wp_remote_get($api_url, array('timeout' => 120));
          if (is_wp_error($request)) {
              return false; // Bail early
