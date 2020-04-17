@@ -5,7 +5,7 @@
  * Author:Cool Plugins
  * Author URI:https://coolplugins.net/
  * Plugin URI:https://cryptowidget.coolplugins.net/
- * Version:1.2
+ * Version:1.3
  * License: GPL2
  * Text Domain:cvct
  * Domain Path: languages
@@ -22,8 +22,8 @@ if ( defined( 'CVCT_VERSION' ) ) {
 /*
 Defined constent for later use
 */
-define( 'CVCT_VERSION', '1.2' );
-define( 'CVCT_Cache_Timing', HOUR_IN_SECONDS );
+define( 'CVCT_VERSION', '1.3' );
+define( 'CVCT_Cache_Timing', 20*MINUTE_IN_SECONDS );
 define( 'CVCT_FILE', __FILE__ );
 define( 'CVCT_DIR', plugin_dir_path( CVCT_FILE ) );
 define( 'CVCT_URL', plugin_dir_url( CVCT_FILE ) );
@@ -68,8 +68,22 @@ final class Corona_Virus_Cases_Tracker_lite {
         //main plugin shortcode for list widget
          add_shortcode( 'cvct', array($this, 'cvct_shortcode' ));
          add_shortcode('cvct-tbl',array($this,'cvct_tbl_shortcode'));
-	}
+         add_action( 'init', array($this,'cvct_fdelete_all_cache') );
+        }
 
+    public function cvct_fdelete_all_cache( ) {
+        $delete_all_cache=get_option('cvct_delete_all_cache');
+          if($delete_all_cache==false){
+                delete_transient('cvct_countries_data');
+                delete_transient('cvct_gs');
+                $countries_arr=$this->get_country_arr();
+			  foreach($countries_arr as $country_code=>$name){
+				delete_transient('cvct_cs_'.$country_code);
+			  }
+                update_option('cvct_delete_all_cache',true);
+            } 
+        }	
+        
     /*
 |--------------------------------------------------------------------------
 | Load required files
@@ -206,7 +220,7 @@ public function cvct_c_stats_data($country_code){
     $cstats_data='';
     $save_arr=[];
    if($cache==false){
-         $api_url = 'https://corona.lmao.ninja/countries/'.$country_code;
+         $api_url = 'https://corona.lmao.ninja/v2/countries/'.$country_code;
          $request = wp_remote_get($api_url, array('timeout' => 120));
          if (is_wp_error($request)) {
              return false; // Bail early
@@ -425,12 +439,12 @@ table#cvct_table_layout tr td, table#cvct_table_id tr td {background-color:'.$fo
 */ 
 function cvct_get_all_country_data(){
     $cache_name='cvct_countries_data';
-   // $cache=get_transient($cache_name);
-   $cache=false;
+   $cache=get_transient($cache_name);
+
     $country_stats_data = array();
     $data_arr = array();
       if($cache==false){
-       $api_url = 'https://corona.lmao.ninja/countries?sort=cases';
+       $api_url = 'https://corona.lmao.ninja/v2/countries?sort=cases';
        $api_req = wp_remote_get($api_url,array('timeout' => 120));
        if (is_wp_error($api_req)) {
         return false; // Bail early
@@ -472,8 +486,199 @@ function cvct_get_all_country_data(){
 	}
 	public function cvct_deactivate(){
 		delete_transient('cvct_gs');
-	}
+    }
+    
+function get_country_arr(){
+    $countries = array
+    (
+    "AF"=>"Afghanistan",
+    "AL"=>"Albania",
+    "DZ"=>"Algeria",
+    "AO"=>"Angola",
+    "AR"=>"Argentina",
+    "AM"=>"Armenia",
+    "AU"=>"Australia",
+    "AT"=>"Austria",
+    "AZ"=>"Azerbaijan",
+    "BS"=>"Bahamas",
+    "BD"=>"Bangladesh",
+    "BY"=>"Belarus",
+    "BE"=>"Belgium",
+    "BZ"=>"Belize",
+    "BJ"=>"Benin",
+    "BT"=>"Bhutan",
+    "BO"=>"Bolivia",
+    "BA"=>"Bosnia and Herzegovina",
+    "BW"=>"Botswana",
+    "BR"=>"Brazil",
+    "BN"=>"Brunei Darussalam",
+    "BG"=>"Bulgaria",
+    "BF"=>"Burkina Faso",
+    "BI"=>"Burundi",
+    "KH"=>"Cambodia",
+    "CM"=>"Cameroon",
+    "CA"=>"Canada",
+    "CF"=>"Central African Republic",
+    "TD"=>"Chad",
+    "CL"=>"Chile",
+    "CN"=>"China",
+    "CO"=>"Colombia",
+    "CG"=>"Congo",
+    "CR"=>"Costa Rica",
+    "HR"=>"Croatia",
+    "CU"=>"Cuba",
+    "CY"=>"Cyprus",
+    "CZ"=>"Czech Republic",
+    "CD"=>"Democratic Republic of Congo",
+    "DK"=>"Denmark",
+    "DP"=>"Diamond Princess",
+    "DJ"=>"Djibouti",
+    "DO"=>"Dominican Republic",
+    "CD"=>"DR Congo",
+    "EC"=>"Ecuador",
+    "EG"=>"Egypt",
+    "SV"=>"El Salvador",
+    "GQ"=>"Equatorial Guinea",
+    "ER"=>"Eritrea",
+    "EE"=>"Estonia",
+    "ET"=>"Ethiopia",
+    "FK"=>"Falkland Islands",
+    "FJ"=>"Fiji",
+    "FI"=>"Finland",
+    "FR"=>"France",
+    "GF"=>"French Guiana",
+    "TF"=>"French Southern Territories",
+    "GA"=>"Gabon",
+    "GM"=>"Gambia",
+    "GE"=>"Georgia",
+    "DE"=>"Germany",
+    "GH"=>"Ghana",
+    "GR"=>"Greece",
+    "GL"=>"Greenland",
+    "GT"=>"Guatemala",
+    "GN"=>"Guinea",
+    "GW"=>"Guinea-Bissau",
+    "GY"=>"Guyana",
+    "HT"=>"Haiti",
+    "HN"=>"Honduras",
+    "HK"=>"Hong Kong",
+    "HU"=>"Hungary",
+    "IS"=>"Iceland",
+    "IN"=>"India",
+    "ID"=>"Indonesia",
+    "IR"=>"Iran",
+    "IQ"=>"Iraq",
+    "IE"=>"Ireland",
+    "IL"=>"Israel",
+    "IT"=>"Italy",
+    "CI"=>"Ivory Coast",
+    "JM"=>"Jamaica",
+    "JP"=>"Japan",
+    "JO"=>"Jordan",
+    "KZ"=>"Kazakhstan",
+    "KE"=>"Kenya",
+    "KP"=>"Korea",
+    "XK"=>"Kosovo",
+    "KW"=>"Kuwait",
+    "KG"=>"Kyrgyzstan",
+    "LA"=>"Lao",
+    "LV"=>"Latvia",
+    "LB"=>"Lebanon",
+    "LS"=>"Lesotho",
+    "LR"=>"Liberia",
+    "LY"=>"Libya",
+    "LT"=>"Lithuania",
+    "LU"=>"Luxembourg",
+    "MK"=>"Macedonia",
+    "MG"=>"Madagascar",
+    "MW"=>"Malawi",
+    "MY"=>"Malaysia",
+    "ML"=>"Mali",
+    "MR"=>"Mauritania",
+    "MX"=>"Mexico",
+    "MD"=>"Moldova",
+    "MN"=>"Mongolia",
+    "ME"=>"Montenegro",
+    "MA"=>"Morocco",
+    "MZ"=>"Mozambique",
+    "MM"=>"Myanmar",
+    "NA"=>"Namibia",
+    "NP"=>"Nepal",
+    "NL"=>"Netherlands",
+    "NC"=>"New Caledonia",//
+    "NZ"=>"New Zealand",
+    "NI"=>"Nicaragua",
+    "NE"=>"Niger",
+    "NG"=>"Nigeria",
+    "KP"=>"North Korea",
+    "NO"=>"Norway",
+    "OM"=>"Oman",
+    "PK"=>"Pakistan",
+    "PS"=>"Palestine",
+    
+    "PA"=>"Panama",
+    "PG"=>"Papua New Guinea",
+    "PY"=>"Paraguay",
+    "PE"=>"Peru",
+    "PH"=>"Philippines",
+    "PL"=>"Poland",
+    "PT"=>"Portugal",
+    "PR"=>"Puerto Rico",
+    "QA"=>"Qatar",
+    "XK"=>"Republic of Kosovo",
+    "RO"=>"Romania",
+    "RU"=>"Russia",
+    "RW"=>"Rwanda",
+    "SA"=>"Saudi Arabia",
+    "SN"=>"Senegal",
+    "RS"=>"Serbia",
+    "SL"=>"Sierra Leone",
+    "SG"=>"Singapore",
+    "SK"=>"Slovakia",
+    "SI"=>"Slovenia",
+    "SB"=>"Solomon Islands",
+    "SO"=>"Somalia",
+    "ZA"=>"South Africa",
+    "KR"=>"South Korea",
+    "SS"=>"South Sudan",
+    "ES"=>"Spain",
+    "LK"=>"Sri Lanka",
+    "SD"=>"Sudan",
+    "SR"=>"Suriname",
+    "SJ"=>"Svalbard and Jan Mayen",
+    "SZ"=>"Swaziland",
+    "SE"=>"Sweden",
+    "CH"=>"Switzerland",
+    "SY"=>"Syrian Arab Republic",
+    "TW"=>"Taiwan",
+    "TJ"=>"Tajikistan",
+    "TZ"=>"Tanzania",
+    "TH"=>"Thailand",
+    "TL"=>"Timor-Leste",
+    "TG"=>"Togo",
+    "TT"=>"Trinidad and Tobago",
+    "TN"=>"Tunisia",
+    "TR"=>"Turkey",
+    "TM"=>"Turkmenistan",
+    "AE"=>"UAE",
+    "UG"=>"Uganda",
+    "UA"=>"Ukraine",
+    "GB"=>"United Kingdom",
+    "UY"=>"Uruguay",
+    "US"=>"USA",
+    "UZ"=>"Uzbekistan",
+    "VU"=>"Vanuatu",
+    "VE"=>"Venezuela",
+    "VN"=>"Vietnam",
+    "EH"=>"Western Sahara",
+    "YE"=>"Yemen",
+    "ZM"=>"Zambia",
+    "ZW"=>"Zimbabwe"
+    );
+    return $countries;
+  }
 }
+
 
 function Corona_Virus_Cases_Tracker_lite() {
 	return Corona_Virus_Cases_Tracker_lite::get_instance();

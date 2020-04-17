@@ -53,6 +53,10 @@ As this plugin functionality and data totally depends on third party apis. (We c
 
 
 **Changelog **
+**Version 1.3 | 17-04-2020**
+<pre>
+Updated:Updated API version
+</pre>
 **Version 1.2 | 30-03-2020**
 <pre>
 Added:Integrated brand new elegant table layout shortcode
