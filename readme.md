@@ -1,6 +1,9 @@
 
 **Coronavirus Cases Tracker Plugin** is used to display Novel Coronavirus (COVID-19) outbreak live Updates in WordPress page/posts/widgets section.
 With the help of a simple shortcode, You can display worldwide or country specific data of total infected, deaths and recovered cases of coronavirus inside your WordPress website in a card layout.
+<img src="https://res.cloudinary.com/cooltimeline/image/upload/v1587106124/corona-tracker-assets/banner-1544x500.png">
+<img src="https://res.cloudinary.com/cooltimeline/image/upload/v1587106125/corona-tracker-assets/screenshot-1.png">
+
 
 <h3>Use this shortcode in your page/posts/widget section</h3>
 **Shortcodes with Default Settings** - [View Demo](https://covid19.coolplugins.net/#card-style-1)
@@ -39,7 +42,7 @@ Let's Fight Together with Corona together - Stay Home! Stay Safe!
 
 https://www.youtube.com/watch?v=czMbvSq0CoA
 
-
+<img src="https://res.cloudinary.com/cooltimeline/image/upload/v1587106127/corona-tracker-assets/screenshot-2.jpg">
 Supported countries list:- [https://docs.coolplugins.net/doc/corona-virus-cases-tracker/supported-countries-list/](https://docs.coolplugins.net/doc/corona-virus-cases-tracker/supported-countries-list/)
 
 
@@ -53,6 +56,7 @@ As this plugin functionality and data totally depends on third party apis. (We c
 
 
 **Changelog **
+
 **Version 1.3 | 17-04-2020**
 <pre>
 Updated:Updated API version

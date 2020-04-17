@@ -78,6 +78,7 @@ API docs :- [https://corona.lmao.ninja/docs/](https://corona.lmao.ninja/docs/)
 4. Coronavirus Cases Tracker PRO List Layout Demos.
 
 == Changelog ==
+
 **Version 1.3 | 17-04-2020**
 <pre>
 Updated:Updated API version
